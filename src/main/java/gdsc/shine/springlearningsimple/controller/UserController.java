@@ -25,7 +25,7 @@ public class UserController {
 
         int visitCount = userDAO.countByUserName(name);
 
-        if (visitCount == 1)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             return ResponseEntity.ok("안녕하세요! " + name);
 
         return ResponseEntity.ok(name + "님 안녕하세요, " + visitCount + "번째 방문이시군요!");
