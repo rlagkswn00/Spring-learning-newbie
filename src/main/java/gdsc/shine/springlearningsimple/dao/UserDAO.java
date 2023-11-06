@@ -1,14 +1,12 @@
 package gdsc.shine.springlearningsimple.dao;
 
 import gdsc.shine.springlearningsimple.domain.User;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 
-@Slf4j
 @Repository
 public class UserDAO {
 
@@ -26,17 +24,11 @@ public class UserDAO {
 
     //[2번 문제]
     public int countByUserName(String userName) {
-        String sql = "SELECT COUNT(*) FROM users WHERE name = ?";
-        return jdbcTemplate.queryForObject(sql, Integer.class, userName);
+        String sql = "SELECT COUNT(1) FROM users WHERE name = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, Integer.class, userName);
+        }catch (EmptyResultDataAccessException e){
+            return -1;
+        }
     }
-
-    private RowMapper<User> userRowMapper() {
-        return (rs, rowNum) -> {
-            User user = new User();
-            user.setId(rs.getLong("id"));
-            user.setName(rs.getString("name"));
-            user.setCount(rs.getLong("count"));
-            return user;
-        }; }
-
 }
