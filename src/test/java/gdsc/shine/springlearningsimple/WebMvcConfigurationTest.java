@@ -1,6 +1,8 @@
 package gdsc.shine.springlearningsimple;
 
+import gdsc.shine.springlearningsimple.domain.LoginMember;
 import io.restassured.RestAssured;
+import io.restassured.http.Header;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
@@ -70,6 +72,17 @@ class WebMvcConfigurationTest {
     void addArgumentResolvers() {
         RestAssured
                 .given().log().all()
+                .when().get("/favorites")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    @Test
+    void addArgumentResolversWitAccessToken() {
+        RestAssured
+                .given()
+                .header(new Header("Authorization", "accessToken")).log().all()
                 .when().get("/favorites")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
