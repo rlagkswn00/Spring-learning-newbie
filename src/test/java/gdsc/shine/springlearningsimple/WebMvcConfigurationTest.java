@@ -25,6 +25,9 @@ class WebMvcConfigurationTest {
      * <p>
      * WebMvcConfiguration의 addViewControllers 메서드로 설정하기
      */
+
+    //Interceptor Prehandle이 먼저 동작하기 때문에, 오류 발생.
+    //LoginInterceptor 설정 해제시 정상동작
     @Test
     void addViewControllers() {
         // when
